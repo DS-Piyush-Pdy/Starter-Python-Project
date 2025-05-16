@@ -1,4 +1,3 @@
-# Tejas's code
 
 # Function to dynamically take roommate names as input
 def get_roommate_name():
