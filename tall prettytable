@@ -1,0 +1,72 @@
+[33mcommit 68043947c57a53dc16013f213a3906f6260bf863[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Piyush Pandey <piyushprof001@gmail.com>
+Date:   Sat May 17 13:25:25 2025 +0530
+
+    Delete bishal0.1.py
+
+[33mcommit f98eac1d070131f85d64784caa62bbab7c5c3097[m
+Author: Piyush Pandey <piyushprof001@gmail.com>
+Date:   Sat May 17 13:16:33 2025 +0530
+
+    Update Main.py
+
+[33mcommit 047e26d7590ff1ebe80067c2b9561dd1cc84a600[m
+Author: print("Bishal Das") <bishal049985@gmail.com>
+Date:   Sat May 17 00:09:25 2025 +0530
+
+    Add files via upload
+
+[33mcommit 5322c7e92019d03d982e7af48d3efe6424293d9d[m
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Fri May 16 21:06:02 2025 +0530
+
+    Slight fix
+
+[33mcommit f1b7272ae221fa9ce4f7db2d1c700550c58511d7[m
+Merge: 0759b8b e140f25
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Fri May 16 20:55:41 2025 +0530
+
+    Merge branch 'main' of https://github.com/DS-Piyush-Pdy/Starter-Python-Project a slight fix
+
+[33mcommit 0759b8b3bcfb5336b2cbe78ef59ad8ad78845d08[m
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Fri May 16 20:53:25 2025 +0530
+
+    A slight fix
+
+[33mcommit e140f2585c3d83d37d54071ed8f68ba4075a27f8[m
+Author: TejasDand <tejasdand07@gmail.com>
+Date:   Thu May 15 13:59:52 2025 +0530
+
+    first_part_roommate_splitter
+
+[33mcommit 9a441b65ee4f6f01b21fe439b4c20f2b7e434223[m
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Thu May 15 13:38:48 2025 +0530
+
+    save chages before pull
+
+[33mcommit 7096e0b02c8a75bdbec06c1c759b448a2ac0c817[m
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Thu May 15 13:49:21 2025 +0530
+
+    Old file deleted and new file created
+
+[33mcommit fc62083eeb7a31379dce18864d0c588ad8123a6f[m
+Author: TejasDand <tejasdand07@gmail.com>
+Date:   Thu May 15 13:22:04 2025 +0530
+
+    first_part_roommate_splitter
+
+[33mcommit 7aa7ebeec383cc5f8bd4b984e8fee7f2c73d96b8[m
+Author: DS-Piyush-Pdy <piyushprof001@gmail.com>
+Date:   Thu May 15 12:13:16 2025 +0530
+
+    File added for tejas's code
+
+[33mcommit 2f2e196e41e5a3e00408290fbe37cb942f16c680[m
+Author: Piyush Pandey <piyushprof001@gmail.com>
+Date:   Wed May 14 21:16:01 2025 +0530
+
+    Initial commit

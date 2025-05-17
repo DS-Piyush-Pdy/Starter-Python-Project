@@ -73,22 +73,64 @@ def split_expenses(roommates, expenses):
 
 
 def display_summary(total_paid, total_share, net_balance):
-    print("\n====== Expense Summary ======")
-    print("\nTotal Paid:")
-    for person, amount in total_paid.items():
-        print(f"{person}: ₹{amount:.2f}")
-     
-    total_amount_paid = sum(total_paid.values())
-    print(f"\nTotal Amount Paid by Everyone: ₹{total_amount_paid:.2f}")
+    from prettytable import PrettyTable
 
-    print("\nTotal Share (What each person owes):")
-    for person, amount in total_share.items():
-        print(f"{person}: ₹{amount:.2f}")
 
-    print("\nNet Balances:")
-    for person, balance in net_balance.items():
-        status = "gets back" if balance > 0 else "owes"
-        print(f"{person} {status} ₹{abs(balance):.2f}")
+    total_amount_paid = sum(total_paid.values())            # This will Display the total amount Spent by everyone
+    print(f"\n🧾 Total Amount Spent by Everyone: ₹{total_amount_paid:.2f}\n")
+
+
+    print("\n====== Balance Sheet :  ======\n")
+
+    # Table: Summary of balances
+    table = PrettyTable()
+    table.field_names = ["Roommate", "Total Paid (₹)", "Total Share (₹)", "Net Balance (₹)", "Status"]
+
+    for person in total_paid:
+        paid = round(total_paid[person], 2)
+        share = round(total_share[person], 2)
+        net = round(net_balance[person], 2)
+        status = "Gets Back" if net > 0 else ("Owes" if net < 0 else "Settled")   # This will check the member owes or get back or the amount is setteled 
+        table.add_row([person, f"{paid:.2f}", f"{share:.2f}", f"{abs(net):.2f}", status])   #this will add the row in the table and round the expences to to digits after decimal 
+
+    print(table)
+
+    
+    print("====== Creditor and Debtor  ======\n")
+
+    creditors = {}
+    for key , value in net_balance.items():  #This will seprate the creditors from the main net_balance dict
+        if value > 0:
+            creditors[key] = value  # Add to creditors if they are owed money
+
+    debtors = {}
+    for key, value in net_balance.items():  #This will seprate the debitors from the main net_balance dict
+        if value < 0:
+            debtors[key] = -value   # Add to debtors if they owe money (flip to positive)
+
+
+    transactions = []
+
+    for debtor, owed_amount in debtors.items():
+        for creditor, to_receive in list(creditors.items()):
+            if owed_amount == 0:
+                break
+            payment = min(owed_amount, to_receive)
+            transactions.append(f"{debtor} has to give ₹{payment:.2f} to {creditor}")
+            owed_amount -= payment
+            creditors[creditor] -= payment
+            if creditors[creditor] == 0:
+                del creditors[creditor]
+
+
+    if transactions:
+        for i in transactions:
+            print("==>", i)
+        print()
+    else:
+        print("==> Everyone is settled up. No one owes anything!\n")
+        print()
+
 
 
 def main():
