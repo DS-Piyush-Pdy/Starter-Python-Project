@@ -1,70 +1,126 @@
-
-# Function to dynamically take roommate names as input
 def get_roommate_name():
     roommates_name = []
-
     print("Enter roommate name (or type 'Done' to finish): ")
     while True:
         name = input("Name: ").title().strip()
-
-        # Stop when user types 'Done'
         if name == "Done":
             break
         elif name:
-            roommates_name.append(name) # Add valid name to list
+            roommates_name.append(name)
         else:
             print("Name cannot be empty!")
-
-    # Return the list of all roommate names for later processing
     return roommates_name
-            
 
 
-# Function to collect expense details (payer, amount, purpose) and store them as dictionaries in a list
-def collect_expense_details():
-    expenses_details = []
+def collect_expense_details(roommates, total_expected=None, purpose_for_expected=""):
 
-    print("\nEnter expense details (or type 'Done' to finish): ")
+    while True:  # loop until valid total is entered (if expected)
+        print("\nEnter contributions by each roommate for the expense:")
 
-    while True:
-        payer = input("Who paid? (or type 'Done' to finish): ").title().strip()
+        expenses_details = []
+        total_entered = 0
 
-         # Stop when user types 'Done'
-        if payer == "Done":
-            break
+        for person in roommates:
+            try:
+                amount = float(input(f"How much did {person} pay? ₹"))
+                expenses_details.append({
+                    'Payer': person,
+                    'Amount': amount,
+                    'Purpose': purpose_for_expected if total_expected else input("Purpose of expense: ").title().strip()
+                })
+                total_entered += amount
+            except ValueError:
+                print("Invalid input! Restarting input for all.")
+                break  # invalid input → restart whole group input
 
-        try: 
-            amount = float(input("Amount paid: ₹"))
-            purpose = input("Purpose of expense: ").title().strip()
+        # Check total only if expected is set
+        if total_expected is not None:
+            if round(total_entered, 2) != round(total_expected, 2):
+                print("\n❌ ERROR: Can't continue — the total payment doesn't match the expected amount!")
+                print(f"Expected: ₹{total_expected:.2f}, but got: ₹{total_entered:.2f}. Please re-enter all contributions.\n")
+                continue  # restart loop
 
-            # Store entry as a dictionary
-            expenses_details.append({
-                'Payer' : payer,
-                'Amount' : amount,
-                'Purpose' : purpose
-            })
-
-        except ValueError:
-            print("Invalid amount. Please Enter a Correct Amount!")
-
-    # Return the full list of expense entries    
-    return expenses_details
+        return expenses_details
 
 
 
-# Main function to call input functions and print stored data
+def split_expenses(roommates, expenses):
+    total_paid = {roommate: 0 for roommate in roommates}
+    total_share = {roommate: 0 for roommate in roommates}
+
+    num_roommates = len(roommates)
+
+    for expense in expenses:
+        payer = expense['Payer']
+        amount = expense['Amount']
+
+        # Split equally
+        share = amount / num_roommates
+
+        # Track payments
+        total_paid[payer] += amount
+
+        # Each roommate owes their share
+        for roommate in roommates:
+            total_share[roommate] += share
+
+    # Calculate Net Balance
+    net_balance = {}
+    for roommate in roommates:
+        net_balance[roommate] = round(total_paid[roommate] - total_share[roommate], 2)
+
+    return total_paid, total_share, net_balance
+
+
+def display_summary(total_paid, total_share, net_balance):
+    print("\n====== Expense Summary ======")
+    print("\nTotal Paid:")
+    for person, amount in total_paid.items():
+        print(f"{person}: ₹{amount:.2f}")
+     
+    total_amount_paid = sum(total_paid.values())
+    print(f"\nTotal Amount Paid by Everyone: ₹{total_amount_paid:.2f}")
+
+    print("\nTotal Share (What each person owes):")
+    for person, amount in total_share.items():
+        print(f"{person}: ₹{amount:.2f}")
+
+    print("\nNet Balances:")
+    for person, balance in net_balance.items():
+        status = "gets back" if balance > 0 else "owes"
+        print(f"{person} {status} ₹{abs(balance):.2f}")
+
+
 def main():
-
-    # Collect roommate names
     roommates = get_roommate_name()
-    print(f"Roommates: {', '.join(roommates)}")
+    print(f"\nRoommates: {', '.join(roommates)}")
 
-    # Collect expense entries
-    expenses = collect_expense_details()
-    print(f"\nCollected Expenses:")
+    total_expected = None
+    purpose_for_expected = ""
+
+    set_total = input("\nDo you want to set a total amount to be paid for a purpose? (yes/no): ").lower()
+    
+    if set_total == "yes":
+        purpose_for_expected = input("Enter the purpose of the payment: ").title().strip()
+        while True:
+            try:
+                total_expected = float(input(f"Enter the total amount to be paid for '{purpose_for_expected}': ₹"))
+                break
+            except ValueError:
+                print("Invalid amount. Please enter a number.")
+
+        expenses = collect_expense_details(roommates, total_expected, purpose_for_expected)
+
+    else:
+        expenses = collect_expense_details(roommates)
+
+    # This part is shared — it works for both "yes" and "no"
+    print("\nCollected Expenses:")
     for e in expenses:
-        print(e)
+        print(f"{e['Payer']} paid ₹{e['Amount']:.2f} for {e['Purpose']}")
 
-# Ensures this runs only when the script is executed directly
+    total_paid, total_share, net_balance = split_expenses(roommates, expenses)
+    display_summary(total_paid, total_share, net_balance)
+
 if __name__ == "__main__":
-    main()
+        main()
